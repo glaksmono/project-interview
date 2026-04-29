@@ -1,6 +1,7 @@
 -- =============================================================
--- B2B E-Commerce + P2P Lending Platform
+-- B2B E-Commerce + P2P Lending Platform (Indonesia)
 -- Database Schema + Seed Data
+-- Currency: Indonesian Rupiah (IDR)
 -- Compatible with PostgreSQL 14+
 -- =============================================================
 
@@ -24,7 +25,7 @@ CREATE TABLE users (
     email           VARCHAR(255) NOT NULL UNIQUE,
     password_hash   VARCHAR(255) NOT NULL,
     role            user_role NOT NULL,
-    wallet_balance  NUMERIC(15, 2) NOT NULL DEFAULT 50000.00,
+    wallet_balance  NUMERIC(15, 2) NOT NULL DEFAULT 500000000.00,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -116,53 +117,53 @@ CREATE INDEX idx_repayment_installments_loan_application_id ON repayment_install
 INSERT INTO products (name, description, price, stock_quantity, category) VALUES
 
 -- Machinery
-('Industrial Water Pump',
- 'Heavy-duty centrifugal pump rated for 500 GPM. Suitable for construction sites and large-scale irrigation.',
- 4500.00, 15, 'machinery'),
+('Pompa Air Industri',
+ 'Pompa sentrifugal heavy-duty kapasitas 1.900 liter/menit. Cocok untuk proyek konstruksi dan irigasi berskala besar.',
+ 72000000.00, 15, 'machinery'),
 
-('Electric Motor 50HP',
- 'Three-phase induction motor, 50 horsepower, 1800 RPM. IP55 rated for outdoor use.',
- 3200.00, 8, 'machinery'),
+('Motor Listrik 50HP',
+ 'Motor induksi tiga fase, 50 horsepower, 1800 RPM. Rated IP55 untuk penggunaan luar ruangan.',
+ 52000000.00, 8, 'machinery'),
 
-('Hydraulic Press 20-Ton',
- 'H-frame hydraulic press with 20-ton capacity. Includes pressure gauge and safety relief valve.',
- 7800.00, 5, 'machinery'),
+('Hydraulic Press 20 Ton',
+ 'Hydraulic press rangka-H kapasitas 20 ton. Dilengkapi pressure gauge dan safety relief valve.',
+ 125000000.00, 5, 'machinery'),
 
-('Industrial Air Compressor',
- 'Rotary screw compressor, 100 CFM output, 150 PSI max. Suitable for continuous industrial use.',
- 5500.00, 10, 'machinery'),
+('Kompresor Udara Industri',
+ 'Kompresor screw rotary, output 2.800 liter/menit, maksimum 10 bar. Cocok untuk penggunaan industri berkelanjutan.',
+ 88000000.00, 10, 'machinery'),
 
 -- Raw Materials
-('Steel Rod Bundle (1 Ton)',
- 'Deformed steel reinforcement bars, 12mm diameter, 1-ton bundle. Grade 60.',
- 1200.00, 50, 'raw-materials'),
+('Besi Beton Bundel (1 Ton)',
+ 'Besi beton ulir diameter 12mm, bundel 1 ton. Grade BJTS 420.',
+ 20000000.00, 50, 'raw-materials'),
 
-('Copper Wire Roll 100m',
- 'Pure copper conductor wire, 10mm² cross-section, PVC insulated. 100-meter roll.',
- 850.00, 30, 'raw-materials'),
+('Kabel Tembaga Rol 100m',
+ 'Kabel konduktor tembaga murni, penampang 10mm², insulasi PVC. Gulungan 100 meter.',
+ 14000000.00, 30, 'raw-materials'),
 
-('Aluminum Sheet 4x8ft',
- '6061-T6 aluminum alloy sheet, 4x8 feet, 3mm thickness. Suitable for fabrication.',
- 320.00, 100, 'raw-materials'),
+('Plat Aluminium 4x8ft',
+ 'Plat aluminium alloy seri 6061-T6, ukuran 4x8 kaki, ketebalan 3mm. Cocok untuk fabrikasi.',
+ 5200000.00, 100, 'raw-materials'),
 
-('PVC Pipe Bundle (50 pcs)',
- 'Schedule 40 PVC pipes, 3-inch diameter, 10-foot length. Bundle of 50 pieces.',
- 480.00, 40, 'raw-materials'),
+('Bundel Pipa PVC (50 pcs)',
+ 'Pipa PVC Schedule 40, diameter 3 inci, panjang 3 meter. Bundel isi 50 batang.',
+ 7800000.00, 40, 'raw-materials'),
 
 -- Office & Warehouse
-('Heavy-Duty Shelving Unit',
- 'Industrial steel shelving unit, 5 tiers, 2000 lb total capacity. 72"H x 48"W x 24"D.',
- 680.00, 25, 'office-warehouse'),
+('Rak Gudang Heavy-Duty',
+ 'Rak baja industri 5 tingkat, kapasitas total 900 kg. Ukuran 183x122x61 cm.',
+ 11000000.00, 25, 'office-warehouse'),
 
 ('Electric Pallet Jack',
- 'Ride-on electric pallet jack, 4500 lb capacity, 48V battery. Includes charger.',
- 6200.00, 6, 'office-warehouse'),
+ 'Pallet jack elektrik ride-on, kapasitas 2.000 kg, baterai 48V. Sudah termasuk charger.',
+ 100000000.00, 6, 'office-warehouse'),
 
-('Laser Printer (Business)',
- 'High-speed monochrome laser printer, 65 PPM, duplex printing, 550-sheet tray. Network ready.',
- 1100.00, 20, 'office-warehouse'),
+('Printer Laser Bisnis',
+ 'Printer laser monokrom kecepatan tinggi, 65 PPM, cetak bolak-balik, baki 550 lembar. Siap jaringan.',
+ 18000000.00, 20, 'office-warehouse'),
 
 -- Safety & PPE
-('Safety Helmet Bulk Pack (50 pcs)',
- 'ANSI/ISEA Z89.1 Class E certified hard hats. Vented design. Pack of 50 in assorted colors.',
- 420.00, 60, 'safety-ppe');
+('Helm Keselamatan Bulk (50 pcs)',
+ 'Helm keras berventilasi tersertifikasi SNI. Paket isi 50 pcs dalam berbagai warna.',
+ 7000000.00, 60, 'safety-ppe');

@@ -15,7 +15,7 @@ Provide a database migration or seed script that creates:
 
 - At least **10 products** across at least 3 categories (e.g., machinery, office supplies, raw materials)
   - Fields: `name`, `description`, `price`, `stock_quantity`, `category`
-- Every registered user starts with a wallet balance of **$50,000**
+- Every registered user starts with a wallet balance of **Rp 500,000,000**
   - This can be applied at registration time, not via a separate migration
 
 ---

@@ -4,6 +4,8 @@
 
 Build a simplified integrated **B2B e-commerce** and **P2P lending** platform as a full-stack web application. The core concept: businesses buy products, and when they can't or don't want to pay upfront, they finance the purchase through peer-to-peer loans funded by individual lenders.
 
+All transactions use **Indonesian Rupiah (IDR)**. Every user starts with a wallet balance of **Rp 500,000,000**.
+
 **Timeline: 5 days**
 
 ---

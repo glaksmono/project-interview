@@ -13,8 +13,8 @@ All request and response bodies are JSON. Protected endpoints require `Authoriza
 **Request:**
 ```json
 {
-  "name": "Acme Corp",
-  "email": "buyer@acme.com",
+  "name": "PT Maju Jaya",
+  "email": "buyer@majujaya.co.id",
   "password": "secret123",
   "role": "buyer"
 }
@@ -24,10 +24,10 @@ All request and response bodies are JSON. Protected endpoints require `Authoriza
 ```json
 {
   "id": "uuid",
-  "name": "Acme Corp",
-  "email": "buyer@acme.com",
+  "name": "PT Maju Jaya",
+  "email": "buyer@majujaya.co.id",
   "role": "buyer",
-  "wallet_balance": 50000.00,
+  "wallet_balance": 500000000.00,
   "created_at": "2024-01-01T00:00:00Z"
 }
 ```
@@ -39,7 +39,7 @@ All request and response bodies are JSON. Protected endpoints require `Authoriza
 **Request:**
 ```json
 {
-  "email": "buyer@acme.com",
+  "email": "buyer@majujaya.co.id",
   "password": "secret123"
 }
 ```
@@ -51,9 +51,9 @@ All request and response bodies are JSON. Protected endpoints require `Authoriza
   "token_type": "Bearer",
   "user": {
     "id": "uuid",
-    "name": "Acme Corp",
+    "name": "PT Maju Jaya",
     "role": "buyer",
-    "wallet_balance": 50000.00
+    "wallet_balance": 500000000.00
   }
 }
 ```
@@ -71,9 +71,9 @@ All request and response bodies are JSON. Protected endpoints require `Authoriza
   "data": [
     {
       "id": "uuid",
-      "name": "Industrial Pump",
-      "description": "Heavy-duty water pump",
-      "price": 1500.00,
+      "name": "Pompa Air Industri",
+      "description": "Pompa sentrifugal heavy-duty kapasitas 1.900 liter/menit",
+      "price": 72000000.00,
       "stock_quantity": 10,
       "category": "machinery"
     }
@@ -114,16 +114,16 @@ Place an order and complete checkout in one step.
 {
   "order": {
     "id": "uuid",
-    "product": { "id": "uuid", "name": "Industrial Pump" },
+    "product": { "id": "uuid", "name": "Pompa Air Industri" },
     "quantity": 2,
-    "unit_price": 1500.00,
-    "total_amount": 3000.00,
+    "unit_price": 72000000.00,
+    "total_amount": 144000000.00,
     "payment_method": "direct",
     "status": "confirmed",
     "loan_application": null,
     "created_at": "2024-01-01T00:00:00Z"
   },
-  "wallet_balance_after": 47000.00
+  "wallet_balance_after": 356000000.00
 }
 ```
 
@@ -132,25 +132,25 @@ Place an order and complete checkout in one step.
 {
   "order": {
     "id": "uuid",
-    "product": { "id": "uuid", "name": "Industrial Pump" },
+    "product": { "id": "uuid", "name": "Pompa Air Industri" },
     "quantity": 2,
-    "unit_price": 1500.00,
-    "total_amount": 3000.00,
+    "unit_price": 72000000.00,
+    "total_amount": 144000000.00,
     "payment_method": "loan",
     "status": "pending_funding",
     "loan_application": {
       "id": "uuid",
-      "requested_amount": 3000.00,
+      "requested_amount": 144000000.00,
       "funded_amount": 0.00,
-      "remaining_amount": 3000.00,
+      "remaining_amount": 144000000.00,
       "term_months": 6,
       "interest_rate": 0.05,
-      "monthly_installment": 525.00,
+      "monthly_installment": 25200000.00,
       "status": "open"
     },
     "created_at": "2024-01-01T00:00:00Z"
   },
-  "wallet_balance_after": 50000.00
+  "wallet_balance_after": 500000000.00
 }
 ```
 
@@ -167,15 +167,15 @@ Returns all orders for the authenticated buyer.
   "data": [
     {
       "id": "uuid",
-      "product": { "id": "uuid", "name": "Industrial Pump" },
+      "product": { "id": "uuid", "name": "Pompa Air Industri" },
       "quantity": 2,
-      "total_amount": 3000.00,
+      "total_amount": 144000000.00,
       "payment_method": "loan",
       "status": "pending_funding",
       "loan_application": {
         "id": "uuid",
-        "funded_amount": 1200.00,
-        "remaining_amount": 1800.00,
+        "funded_amount": 50000000.00,
+        "remaining_amount": 94000000.00,
         "status": "open"
       },
       "created_at": "2024-01-01T00:00:00Z"
@@ -195,16 +195,16 @@ Full order detail including repayment schedule if the loan is funded.
 ```json
 {
   "id": "uuid",
-  "product": { "id": "uuid", "name": "Industrial Pump" },
+  "product": { "id": "uuid", "name": "Pompa Air Industri" },
   "quantity": 2,
-  "unit_price": 1500.00,
-  "total_amount": 3000.00,
+  "unit_price": 72000000.00,
+  "total_amount": 144000000.00,
   "payment_method": "loan",
   "status": "confirmed",
   "loan_application": {
     "id": "uuid",
-    "requested_amount": 3000.00,
-    "funded_amount": 3000.00,
+    "requested_amount": 144000000.00,
+    "funded_amount": 144000000.00,
     "remaining_amount": 0.00,
     "term_months": 6,
     "interest_rate": 0.05,
@@ -212,13 +212,13 @@ Full order detail including repayment schedule if the loan is funded.
     "repayment_schedule": [
       {
         "installment_number": 1,
-        "amount": 525.00,
+        "amount": 25200000.00,
         "due_date": "2024-02-01",
         "status": "pending"
       },
       {
         "installment_number": 2,
-        "amount": 525.00,
+        "amount": 25200000.00,
         "due_date": "2024-03-01",
         "status": "pending"
       }
@@ -243,14 +243,14 @@ List all open loan applications.
   "data": [
     {
       "id": "uuid",
-      "borrower": { "id": "uuid", "name": "Acme Corp" },
+      "borrower": { "id": "uuid", "name": "PT Maju Jaya" },
       "order_id": "uuid",
-      "requested_amount": 3000.00,
-      "funded_amount": 1200.00,
-      "remaining_amount": 1800.00,
+      "requested_amount": 144000000.00,
+      "funded_amount": 50000000.00,
+      "remaining_amount": 94000000.00,
       "term_months": 6,
       "interest_rate": 0.05,
-      "monthly_installment": 525.00,
+      "monthly_installment": 25200000.00,
       "status": "open",
       "created_at": "2024-01-01T00:00:00Z"
     }
@@ -269,20 +269,20 @@ Full loan detail including individual funding contributions.
 ```json
 {
   "id": "uuid",
-  "borrower": { "id": "uuid", "name": "Acme Corp" },
+  "borrower": { "id": "uuid", "name": "PT Maju Jaya" },
   "order_id": "uuid",
-  "requested_amount": 3000.00,
-  "funded_amount": 1200.00,
-  "remaining_amount": 1800.00,
+  "requested_amount": 144000000.00,
+  "funded_amount": 50000000.00,
+  "remaining_amount": 94000000.00,
   "term_months": 6,
   "interest_rate": 0.05,
-  "monthly_installment": 525.00,
+  "monthly_installment": 25200000.00,
   "status": "open",
   "fundings": [
     {
       "id": "uuid",
-      "lender": { "id": "uuid", "name": "Investor A" },
-      "amount": 1200.00,
+      "lender": { "id": "uuid", "name": "PT Dana Sejahtera" },
+      "amount": 50000000.00,
       "funded_at": "2024-01-02T00:00:00Z"
     }
   ],
@@ -299,7 +299,7 @@ Fund an open loan application.
 
 **Request:**
 ```json
-{ "amount": 800.00 }
+{ "amount": 44000000.00 }
 ```
 
 **Response `200`:**
@@ -308,16 +308,16 @@ Fund an open loan application.
   "funding": {
     "id": "uuid",
     "loan_application_id": "uuid",
-    "amount": 800.00,
+    "amount": 44000000.00,
     "funded_at": "2024-01-02T00:00:00Z"
   },
   "loan_application": {
     "id": "uuid",
-    "funded_amount": 2000.00,
-    "remaining_amount": 1000.00,
+    "funded_amount": 94000000.00,
+    "remaining_amount": 50000000.00,
     "status": "open"
   },
-  "wallet_balance_after": 49200.00
+  "wallet_balance_after": 456000000.00
 }
 ```
 
@@ -333,7 +333,7 @@ When the loan becomes 100% funded, `status` is `"funded"` and the linked order s
 **Response `200`:**
 ```json
 {
-  "balance": 49200.00
+  "balance": 456000000.00
 }
 ```
 
@@ -348,8 +348,8 @@ All errors follow this structure:
   "error": "INSUFFICIENT_WALLET_BALANCE",
   "message": "Your wallet balance is insufficient to fund this amount.",
   "details": {
-    "required": 1800.00,
-    "available": 800.00
+    "required": 94000000.00,
+    "available": 30000000.00
   }
 }
 ```
