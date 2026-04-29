@@ -59,12 +59,10 @@ When loan reaches 100% funded → order status changes to `confirmed` → repaym
 1. **Backend API** satisfying [REQUIREMENTS.md](./REQUIREMENTS.md) and [API_SPEC.md](./API_SPEC.md)
 2. **Frontend** with the pages listed in [REQUIREMENTS.md](./REQUIREMENTS.md)
 3. **Database migrations** including seed data (products + initial wallet balances)
-4. **docker-compose.yml** to run the full stack locally
-5. **README** (replace this file) with:
+4. **README** (replace this file) with:
    - How to run the project
    - Architecture decisions and assumptions
    - **How I Used AI** section (required)
-6. **Postman collection** (or equivalent) covering all API endpoints
 
 ---
 
@@ -85,8 +83,6 @@ When loan reaches 100% funded → order status changes to `confirmed` → repaym
 ├── backend/
 ├── frontend/
 ├── migrations/
-├── docker-compose.yml
-├── postman_collection.json
 ├── README.md
 ├── REQUIREMENTS.md      # Do not modify
 └── API_SPEC.md          # Do not modify
