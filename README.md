@@ -150,17 +150,28 @@ http://localhost:3000/api/v1
    - Fund loan
    - View funding history
 
-## Common Issues
+## VITE JS (FRONTEND)
 
-1. Backend exits on startup:
-   - Check PostgreSQL is running
-   - Check DB credentials in `backend/.env`
-   - Ensure [seed.sql](seed.sql) has been executed
+Vite was chosen for the frontend architecture because it gives faster development feedback and a simpler modern setup for this project. Very fast local development with instant startup and near real-time HMR, so UI iteration is quick.
 
-2. Frontend cannot call API:
-   - Ensure backend runs on port `3000`
-   - Check `VITE_API_URL` if you changed backend host/port
+## EXPRESS JS, TypeORM (BACKEND)
 
-3. Unauthorized responses:
-   - Login again to refresh token
-   - Ensure using correct role for protected endpoints
+Express.js and TypeORM were chosen to keep the backend architecture clear, fast to build, and maintainable for this business flow. Express.js is lightweight and flexible, making it easy to structure routes, middleware, authentication, and role-based authorization. It has a mature ecosystem and clear request/response model, which helps deliver REST APIs quickly. TypeORM provides entity-based modeling that maps cleanly to PostgreSQL tables used in this project.
+
+## HOW I USE AI FOR THIS PROJECT
+
+I used AI as a development copilot to speed up implementation, reduce repetitive work, and improve consistency across backend and frontend.
+
+1. Scaffolding and structure
+   - Generated initial backend and frontend structure, then adjusted it to match the project requirements and existing folder layout.
+2. API implementation support
+   - Used AI to draft endpoint handlers, validation patterns, authentication middleware flow, and service-layer separation.
+3. Frontend implementation support
+   - Used AI to speed up page/component wiring, API integration, state handling, and role-based navigation behavior.
+4. Documentation and delivery assets
+   - Used AI to help prepare run instructions, Postman collection structure, and improve project documentation clarity.
+
+Quality control example:
+
+1. During implementation, AI-generated output occasionally used inconsistent token naming between frontend and backend (`accessToken` vs `access_token`), which caused unauthorized behavior after login.
+2. I caught this issue by testing login and protected API calls end-to-end, then corrected token handling to use one consistent key across request/response flow.
