@@ -16,12 +16,15 @@ export default function ProductsPage() {
 
   useEffect(() => {
     getProducts()
-      .then((res) => setProducts(res.data.data))
+      .then((res) => {
+        console.log("🚀 ~ ProductsPage ~ res:", res);
+        return setProducts(res.data.data);
+      })
       .catch((err) => setError(getErrorMessage(err)))
       .finally(() => setLoading(false));
   }, []);
 
-  const categories = [...new Set(products.map((p) => p.category))];
+  const categories = [...new Set(products?.map((p) => p.category))];
 
   const filtered = products.filter((p) => {
     const matchSearch =

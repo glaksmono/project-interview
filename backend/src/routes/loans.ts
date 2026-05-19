@@ -1,6 +1,8 @@
 import { Router, Response } from "express";
 import { authenticate, requireRole, AuthRequest } from "../middleware/auth";
 import * as LoanService from "../services/LoanService";
+import { FundLoanRequestDto, fundLoanRequestSchema } from "../dto/loan.dto";
+import { validateBody } from "../middleware/validateBody";
 
 const router = Router();
 
@@ -42,16 +44,9 @@ router.post(
   "/:id/fund",
   authenticate,
   requireRole("lender"),
+  validateBody(fundLoanRequestSchema),
   async (req: AuthRequest, res: Response): Promise<void> => {
-    const { amount } = req.body;
-
-    if (amount === undefined || typeof amount !== "number" || amount <= 0) {
-      res.status(400).json({
-        error: "VALIDATION_ERROR",
-        message: "amount must be a positive number.",
-      });
-      return;
-    }
+    const { amount } = req.body as FundLoanRequestDto;
 
     const result = await LoanService.fundLoan(
       req.params.id,

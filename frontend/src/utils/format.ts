@@ -10,7 +10,9 @@ export function formatRupiah(amount: number | null | undefined): string {
 
 export function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return "-";
-  return new Date(dateStr).toLocaleDateString("en-US", {
+  const parsed = new Date(dateStr);
+  if (Number.isNaN(parsed.getTime())) return "-";
+  return parsed.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -19,13 +21,18 @@ export function formatDate(dateStr: string | null | undefined): string {
 
 export function getErrorMessage(err: unknown): string {
   const e = err as {
-    response?: { data?: { message?: string; error?: string } };
-    message?: string;
+    response?: { data?: { message?: unknown; error?: unknown } };
+    message?: unknown;
   };
-  return (
-    e?.response?.data?.message ||
-    e?.response?.data?.error ||
-    e?.message ||
-    "An error occurred"
-  );
+
+  const message =
+    typeof e?.response?.data?.message === "string"
+      ? e.response.data.message
+      : typeof e?.response?.data?.error === "string"
+        ? e.response.data.error
+        : typeof e?.message === "string"
+          ? e.message
+          : null;
+
+  return message || "An error occurred";
 }

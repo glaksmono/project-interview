@@ -56,7 +56,20 @@ export async function register(input: RegisterInput): Promise<RegisterResult> {
     role,
     walletBalance: 500000000,
   });
-  await userRepo.save(user);
+
+  try {
+    await userRepo.save(user);
+  } catch (err: unknown) {
+    // Handle unique constraint violation (PostgreSQL error code 23505)
+    if ((err as { code?: string }).code === "23505") {
+      throw new ServiceError(
+        400,
+        "EMAIL_TAKEN",
+        "Email is already registered.",
+      );
+    }
+    throw err;
+  }
 
   return {
     id: user.id,

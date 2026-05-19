@@ -8,11 +8,19 @@ import loanRoutes from "./routes/loans";
 import walletRoutes from "./routes/wallet";
 import { errorHandler } from "./middleware/errorHandler";
 
+const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
+if (
+  process.env.NODE_ENV === "production" &&
+  allowedOrigin.includes("localhost")
+) {
+  throw new Error("FRONTEND_URL must be set to production URL");
+}
+
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: allowedOrigin,
     credentials: true,
   }),
 );

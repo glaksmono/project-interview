@@ -6,12 +6,14 @@ import {
   ReactNode,
 } from "react";
 import { login as apiLogin, register as apiRegister, getWallet } from "../api";
-import type { User } from "../types";
+import type { User, RegisterRequest } from "../types";
 
 interface AuthContextValue {
   user: User | null;
   login: (email: string, password: string) => Promise<User>;
-  register: (data: Record<string, unknown>) => Promise<unknown>;
+  register: (
+    data: RegisterRequest,
+  ) => Promise<{ user: User; accessToken: string }>;
   logout: () => void;
   refreshWallet: () => Promise<void>;
   updateWalletBalance: (balance: number) => void;
@@ -47,7 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  const register = useCallback(async (data: Record<string, unknown>) => {
+  const register = useCallback(async (data: RegisterRequest) => {
     const res = await apiRegister(data);
     return res.data;
   }, []);
@@ -61,7 +63,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshWallet = useCallback(async () => {
     const res = await getWallet();
     setUser((prev) => {
-      const updated = { ...prev!, walletBalance: res.data.balance };
+      if (!prev) return prev;
+      const updated = { ...prev, walletBalance: res.data.balance };
       localStorage.setItem("user", JSON.stringify(updated));
       return updated;
     });
@@ -69,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateWalletBalance = useCallback((balance: number) => {
     setUser((prev) => {
+      if (!prev) return prev;
       const updated = { ...prev!, walletBalance: balance };
       localStorage.setItem("user", JSON.stringify(updated));
       return updated;

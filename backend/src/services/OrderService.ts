@@ -251,10 +251,10 @@ export async function getOrderById(orderId: string, buyerId: string) {
             .map((r) => ({
               installmentNumber: r.installmentNumber,
               amount: r.amount,
-              dueDate:
-                typeof r.dueDate === "string"
-                  ? r.dueDate.slice(0, 10)
-                  : r.dueDate,
+              dueDate: (typeof r.dueDate === "string"
+                ? r.dueDate
+                : (r.dueDate as Date).toISOString()
+              ).slice(0, 10),
               status: r.status,
             })),
         }

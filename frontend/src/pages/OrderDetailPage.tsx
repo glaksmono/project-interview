@@ -23,6 +23,12 @@ export default function OrderDetailPage() {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
+    if (!id) {
+      setError("Invalid order id.");
+      setLoading(false);
+      return;
+    }
+
     getOrderById(id!)
       .then((res) => setOrder(res.data))
       .catch((err) => setError(getErrorMessage(err)))
@@ -89,10 +95,12 @@ export default function OrderDetailPage() {
               label: loan.status,
               cls: "badge-default",
             };
-            const fundedPct =
+            const rawFundedPct =
               loan.requestedAmount > 0
                 ? Math.round((loan.fundedAmount / loan.requestedAmount) * 100)
                 : 0;
+            const fundedPct = Math.max(0, Math.min(100, rawFundedPct));
+
             return (
               <>
                 <div className="detail-grid">

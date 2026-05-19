@@ -196,6 +196,14 @@ export async function fundLoan(
   lenderId: string,
   amount: number,
 ): Promise<FundLoanResult> {
+  if (!Number.isFinite(amount) || amount <= 0) {
+    throw new ServiceError(
+      400,
+      "VALIDATION_ERROR",
+      "amount must be a positive number.",
+    );
+  }
+
   const queryRunner = AppDataSource.createQueryRunner();
   await queryRunner.connect();
   await queryRunner.startTransaction();
@@ -283,6 +291,14 @@ export async function fundLoan(
           .getOne();
 
         if (product) {
+          if (product.stockQuantity < order.quantity) {
+            throw new ServiceError(
+              422,
+              "INSUFFICIENT_STOCK",
+              "Not enough stock available to confirm this funded order.",
+              { available: product.stockQuantity, requested: order.quantity },
+            );
+          }
           product.stockQuantity -= order.quantity;
           await queryRunner.manager.save(product);
         }

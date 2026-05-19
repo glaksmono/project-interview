@@ -118,3 +118,19 @@ export interface LoanFundingHistoryItem {
     price: number;
   } | null;
 }
+
+export type RegisterRequest = {
+  name: string;
+  email: string;
+  password: string;
+  role: "buyer" | "lender";
+};
+
+export type LoginRequest = { email: string; password: string };
+
+export type CreateOrderRequest = {
+  product_id: string;
+  quantity: number;
+  payment_method: "direct" | "loan";
+  loan_term_months?: number;
+};

@@ -35,12 +35,17 @@ export default function LoginPage() {
       <div className="auth-card">
         <h1 className="auth-title">Login</h1>
         <p className="auth-subtitle">Welcome back</p>
-        {error && <div className="alert alert-error">{error}</div>}
+        {error && (
+          <div className="alert alert-error" role="alert" aria-live="assertive">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label>Email</label>
+            <label htmlFor="login-email">Email</label>
             <input
               type="email"
+              id="login-email"
               name="email"
               value={form.email}
               onChange={handleChange}
@@ -49,9 +54,10 @@ export default function LoginPage() {
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label htmlFor="login-password">Password</label>
             <input
               type="password"
+              id="login-password"
               name="password"
               value={form.password}
               onChange={handleChange}

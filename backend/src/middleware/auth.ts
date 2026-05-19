@@ -19,8 +19,17 @@ export const authenticate = (
   }
 
   const token = auth.slice(7);
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    res.status(500).json({
+      error: "INTERNAL_SERVER_ERROR",
+      message: "Server configuration error.",
+    });
+    return;
+  }
+
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET as string) as {
+    const payload = jwt.verify(token, secret) as {
       id: string;
       role: string;
     };

@@ -50,10 +50,11 @@ export default function LoanDetailPage() {
   if (error) return <div className="alert alert-error">{error}</div>;
   if (!loan) return null;
 
-  const fundedPct =
+  const rawFundedPct =
     loan.requestedAmount > 0
       ? Math.round((loan.fundedAmount / loan.requestedAmount) * 100)
       : 0;
+  const fundedPct = Math.max(0, Math.min(100, rawFundedPct));
 
   const maxFund = Math.min(loan.remainingAmount, user?.walletBalance || 0);
 

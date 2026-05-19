@@ -74,7 +74,11 @@ export default function Navbar() {
                 <span className="user-name">{user.name}</span>
                 <span className={`role-badge ${user.role}`}>{user.role}</span>
               </div>
-              <button className="btn btn-ghost btn-sm" onClick={handleLogout}>
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={handleLogout}
+              >
                 Logout
               </button>
             </>

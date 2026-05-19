@@ -71,12 +71,14 @@ export default function LoansPage() {
           ) : (
             <div className="loan-list">
               {loans.map((loan) => {
-                const fundedPct =
+                const rawFundedPct =
                   loan.requestedAmount > 0
                     ? Math.round(
                         (loan.fundedAmount / loan.requestedAmount) * 100,
                       )
                     : 0;
+                const fundedPct = Math.max(0, Math.min(100, rawFundedPct));
+
                 return (
                   <Link
                     key={loan.id}

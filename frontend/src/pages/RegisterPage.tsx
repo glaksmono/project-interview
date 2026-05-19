@@ -11,7 +11,7 @@ export default function RegisterPage() {
     email: string;
     password: string;
     confirmPassword: string;
-    role: string;
+    role: "buyer" | "lender";
   }>({
     name: "",
     email: "",
@@ -52,12 +52,17 @@ export default function RegisterPage() {
       <div className="auth-card">
         <h1 className="auth-title">Create Account</h1>
         <p className="auth-subtitle">Start your business journey</p>
-        {error && <div className="alert alert-error">{error}</div>}
+        {error && (
+          <div className="alert alert-error" role="alert" aria-live="assertive">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label>Company Name / Full Name</label>
+            <label htmlFor="register-name">Company Name / Full Name</label>
             <input
               type="text"
+              id="register-name"
               name="name"
               value={form.name}
               onChange={handleChange}
@@ -66,9 +71,10 @@ export default function RegisterPage() {
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label htmlFor="register-email">Email</label>
             <input
               type="email"
+              id="register-email"
               name="email"
               value={form.email}
               onChange={handleChange}
@@ -77,9 +83,10 @@ export default function RegisterPage() {
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label htmlFor="register-password">Password</label>
             <input
               type="password"
+              id="register-password"
               name="password"
               value={form.password}
               onChange={handleChange}
@@ -88,9 +95,10 @@ export default function RegisterPage() {
             />
           </div>
           <div className="form-group">
-            <label>Confirm Password</label>
+            <label htmlFor="register-confirm-password">Confirm Password</label>
             <input
               type="password"
+              id="register-confirm-password"
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
@@ -105,37 +113,41 @@ export default function RegisterPage() {
             )}
           </div>
           <div className="form-group">
-            <label>Role</label>
-            <div className="role-selector">
-              <label
-                className={`role-option ${form.role === "buyer" ? "selected" : ""}`}
-              >
-                <input
-                  type="radio"
-                  name="role"
-                  value="buyer"
-                  checked={form.role === "buyer"}
-                  onChange={handleChange}
-                />
-                <span className="role-icon">🛒</span>
-                <span className="role-label">Buyer</span>
-                <span className="role-desc">Buy products & manage orders</span>
-              </label>
-              <label
-                className={`role-option ${form.role === "lender" ? "selected" : ""}`}
-              >
-                <input
-                  type="radio"
-                  name="role"
-                  value="lender"
-                  checked={form.role === "lender"}
-                  onChange={handleChange}
-                />
-                <span className="role-icon">💰</span>
-                <span className="role-label">Lender</span>
-                <span className="role-desc">Fund loans & earn interest</span>
-              </label>
-            </div>
+            <fieldset className="role-selector-group">
+              + <legend>Role</legend>
+              <div className="role-selector">
+                <label
+                  className={`role-option ${form.role === "buyer" ? "selected" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="role"
+                    value="buyer"
+                    checked={form.role === "buyer"}
+                    onChange={handleChange}
+                  />
+                  <span className="role-icon">🛒</span>
+                  <span className="role-label">Buyer</span>
+                  <span className="role-desc">
+                    Buy products & manage orders
+                  </span>
+                </label>
+                <label
+                  className={`role-option ${form.role === "lender" ? "selected" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="role"
+                    value="lender"
+                    checked={form.role === "lender"}
+                    onChange={handleChange}
+                  />
+                  <span className="role-icon">💰</span>
+                  <span className="role-label">Lender</span>
+                  <span className="role-desc">Fund loans & earn interest</span>
+                </label>
+              </div>
+            </fieldset>
           </div>
           <button
             type="submit"

@@ -25,17 +25,28 @@ export default function OrderModal({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
+
+    const normalizedQuantity = Number(quantity);
+    if (
+      !Number.isInteger(normalizedQuantity) ||
+      normalizedQuantity < 1 ||
+      normalizedQuantity > product.stockQuantity
+    ) {
+      setError("Please enter a valid quantity within available stock.");
+      return;
+    }
     setLoading(true);
+
     try {
       const payload: {
         product_id: string;
         quantity: number;
-        payment_method: string;
+        payment_method: "direct" | "loan";
         loan_term_months?: number;
       } = {
         product_id: product.id,
-        quantity: Number(quantity),
-        payment_method: paymentMethod,
+        quantity: normalizedQuantity,
+        payment_method: paymentMethod as "direct" | "loan",
       };
       if (paymentMethod === "loan") {
         payload.loan_term_months = Number(termMonths);
@@ -58,7 +69,11 @@ export default function OrderModal({
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>Create Order</h3>
-          <button className="modal-close" onClick={onClose}>
+          <button
+            className="modal-close"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
             ✕
           </button>
         </div>

@@ -10,6 +10,12 @@ const STATUS_LABELS: Record<string, { label: string; cls: string }> = {
   cancelled: { label: "Cancelled", cls: "badge-error" },
 };
 
+const LOAN_STATUS_LABELS: Record<string, { label: string; cls: string }> = {
+  open: { label: "Pending Funding", cls: "badge-warning" },
+  funded: { label: "Funded", cls: "badge-success" },
+  closed: { label: "Closed", cls: "badge-default" },
+};
+
 export default function OrdersPage() {
   const [orders, setOrders] = useState<OrderSummary[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -89,18 +95,19 @@ export default function OrdersPage() {
                       {" / "}
                       {formatRupiah(order.totalAmount)}
                     </span>
-                    <span
-                      className={
-                        "badge badge-sm " +
-                        (order.loanApplication.status === "funded"
-                          ? "badge-success"
-                          : "badge-warning")
-                      }
-                    >
-                      {order.loanApplication.status === "funded"
-                        ? "Funded"
-                        : "Pending Funding"}
-                    </span>
+                    {(() => {
+                      const loanStatus = LOAN_STATUS_LABELS[
+                        order.loanApplication.status
+                      ] ?? {
+                        label: order.loanApplication.status,
+                        cls: "badge-default",
+                      };
+                      return (
+                        <span className={"badge badge-sm " + loanStatus.cls}>
+                          {loanStatus.label}
+                        </span>
+                      );
+                    })()}
                   </div>
                 )}
               </Link>
