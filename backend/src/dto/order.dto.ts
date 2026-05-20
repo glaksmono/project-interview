@@ -5,7 +5,8 @@ export const createOrderRequestSchema = z
     product_id: z.string().uuid("product_id must be a valid UUID."),
     quantity: z.number().int().min(1, "quantity must be a positive integer."),
     payment_method: z.enum(["direct", "loan"], {
-      message: 'payment_method must be "direct" or "loan".',
+      required_error: "payment_method is required.",
+      invalid_type_error: 'payment_method must be "direct" or "loan".',
     }),
     loan_term_months: z.number().int().min(1).max(12).optional(),
   })

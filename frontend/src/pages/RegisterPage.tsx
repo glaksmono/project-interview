@@ -38,7 +38,12 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      await register(form);
+      await register({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        role: form.role,
+      });
       navigate("/login");
     } catch (err) {
       setError(getErrorMessage(err));
@@ -114,7 +119,7 @@ export default function RegisterPage() {
           </div>
           <div className="form-group">
             <fieldset className="role-selector-group">
-              + <legend>Role</legend>
+              <legend>Role</legend>
               <div className="role-selector">
                 <label
                   className={`role-option ${form.role === "buyer" ? "selected" : ""}`}

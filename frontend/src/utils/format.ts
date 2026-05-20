@@ -25,14 +25,36 @@ export function getErrorMessage(err: unknown): string {
     message?: unknown;
   };
 
-  const message =
-    typeof e?.response?.data?.message === "string"
-      ? e.response.data.message
-      : typeof e?.response?.data?.error === "string"
-        ? e.response.data.error
-        : typeof e?.message === "string"
-          ? e.message
-          : null;
+  // Handle API validation error shape:
+  // {
+  //   error: "VALIDATION_ERROR",
+  //   message: "Invalid request body.",
+  //   details: { fields: [ { path: 'password', message: '...' }, ... ] }
+  // }
+  const data = e?.response?.data as unknown;
 
-  return message || "An error occurred";
+  if (data && typeof data === "object") {
+    // If API provided field-level validation details, join them
+    type FieldDetail = { path?: string; message?: string };
+    type ApiErrorShape = { message?: string; error?: string; details?: { fields?: FieldDetail[] } };
+    const apiData = data as ApiErrorShape;
+    if (apiData.details && Array.isArray(apiData.details.fields)) {
+      const fieldMsgs: string[] = [];
+      for (const f of apiData.details.fields) {
+        if (!f) continue;
+        const path = typeof f.path === "string" ? f.path : null;
+        const msg = typeof f.message === "string" ? f.message : null;
+        if (path && msg) fieldMsgs.push(`${path}: ${msg}`);
+        else if (msg) fieldMsgs.push(msg);
+      }
+      if (fieldMsgs.length > 0) return fieldMsgs.join("; ");
+    }
+
+    if (typeof apiData.message === "string") return apiData.message;
+    if (typeof apiData.error === "string") return apiData.error;
+  }
+
+  if (typeof e?.message === "string") return e.message;
+
+  return "An error occurred";
 }
