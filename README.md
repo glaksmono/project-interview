@@ -1,112 +1,177 @@
-# Engineering Interview Test: B2B E-Commerce & P2P Lending Platform
+# B2B E-Commerce + P2P Lending Platform
 
-## Overview
+This repository contains a full-stack implementation of:
 
-Build a simplified integrated **B2B e-commerce** and **P2P lending** platform as a full-stack web application. The core concept: businesses buy products, and when they can't or don't want to pay upfront, they finance the purchase through peer-to-peer loans funded by individual lenders.
+1. B2B e-commerce product ordering (buyer)
+2. Loan-based checkout + lender funding (lender)
 
-All transactions use **Indonesian Rupiah (IDR)**. Every user starts with a wallet balance of **Rp 500,000,000**.
+## Tech Stack
 
-**Timeline: 5 days**
+1. Backend: Node.js, Express, TypeScript, TypeORM, PostgreSQL, JWT
+2. Frontend: React, TypeScript, Vite, React Router, Axios
+3. Database: PostgreSQL (schema + seed from [seed.sql](seed.sql))
 
----
+## Prerequisites
 
-## A Note on AI Tools
+1. Node.js 18+ and npm
+2. PostgreSQL 14+
 
-You are expected to use AI tools — Claude, Cursor, GitHub Copilot, ChatGPT, or anything else you prefer. Candidates who leverage AI effectively will have a significant advantage in completing this project. Those who don't will likely run out of time.
+## Project Structure
 
-Your submission README must include a **"How I Used AI"** section covering:
-- Which tools you used and for what (scaffolding, schema, logic, debugging, etc.)
-- One concrete example where the AI output was wrong or incomplete and how you caught it
+1. [backend](backend) - API server
+2. [frontend](frontend) - Web app
+3. [seed.sql](seed.sql) - Database schema + seed data
+4. [postman_collection.json](postman_collection.json) - Postman import file
 
-We are not judging whether you used AI. We are judging whether you used it well.
+## Quick Start
 
----
+### 1. Setup Database
 
-## Business Context
+1. Create database:
 
-Two integrated products:
-
-1. **B2B E-Commerce** — Business buyers browse and purchase products from a catalog.
-2. **P2P Lending** — Buyers who choose to pay via loan create a loan application at checkout. Lenders browse open loans and fund them. Once fully funded, the order is confirmed.
-
----
-
-## Roles
-
-| Role | Description |
-|------|-------------|
-| **Buyer** | Browses products, places orders, can apply for a loan at checkout |
-| **Lender** | Browses open loan applications, funds them partially or in full |
-
-No seller or admin role is required. Products and initial wallet balances are seeded via database migration.
-
----
-
-## Core Flows
-
-### Flow 1: Direct Purchase
-Buyer places an order → pays from wallet → order confirmed immediately.
-
-### Flow 2: Loan Purchase
-Buyer places an order → applies for a loan → order status is `pending_funding`.
-Lender browses open loans → funds one (partial or full).
-When loan reaches 100% funded → order status changes to `confirmed` → repayment schedule is generated.
-
----
-
-## Deliverables
-
-1. **Backend API** satisfying [REQUIREMENTS.md](./REQUIREMENTS.md) and [API_SPEC.md](./API_SPEC.md)
-2. **Frontend** with the pages listed in [REQUIREMENTS.md](./REQUIREMENTS.md)
-3. **Database migrations** including seed data (products + initial wallet balances)
-4. **README** (replace this file) with:
-   - How to run the project
-   - Architecture decisions and assumptions
-   - **How I Used AI** section (required)
-
----
-
-## Technical Constraints
-
-- **Backend**: Any language and framework (Node.js, Python, Go, Java, etc.)
-- **Frontend**: Any modern framework (React, Next.js, Vue, etc.) — UI does not need to be polished, but must be functional
-- **Database**: PostgreSQL (preferred) or MySQL
-- **Auth**: JWT
-- **Payments**: Simulated via wallet balance — no external payment gateway
-
----
-
-## Suggested Project Structure
-
-```
-/
-├── backend/
-├── frontend/
-├── migrations/
-├── README.md
-├── REQUIREMENTS.md      # Do not modify
-└── API_SPEC.md          # Do not modify
+```sql
+CREATE DATABASE project_interview;
 ```
 
----
+2. Run [seed.sql](seed.sql) against `project_interview`.
 
-## Submission
+Example with psql:
 
-When you are done:
+```bash
+psql -U postgres -d project_interview -f seed.sql
+```
 
-1. Push your work to your forked repository
-2. Open a **pull request** against the original repository with the title: `[Your Name] — Submission`
-3. In the pull request description, include:
-   - How to run the project locally
-   - A brief summary of your architecture decisions
-   - Your **How I Used AI** section
-4. Notify your interviewer contact that your PR is ready
-5. Be prepared to do a **live demo** where you will walk through the working application end-to-end, covering both the direct checkout flow and the loan checkout-to-funding flow
+### 2. Setup Backend
 
-The demo is your opportunity to show the application working, explain your decisions, and discuss trade-offs. There are no trick questions — we want to understand how you think.
+1. Go to backend folder:
 
----
+```bash
+cd backend
+```
 
-## Questions
+2. Install dependencies:
 
-Document your assumptions and move forward. Reach out to your interviewer contact only for critical blockers.
+```bash
+npm install
+```
+
+3. Create env file from [backend/.env.example](backend/.env.example):
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Alternative (Git Bash/Linux/macOS):
+
+```bash
+cp .env.example .env
+```
+
+4. Update values in `.env` if needed (DB credentials, JWT secret).
+
+5. Run backend in development mode:
+
+```bash
+npm run dev
+```
+
+Backend URL: `http://localhost:3000/api/v1`
+
+### 3. Setup Frontend
+
+1. Open a new terminal and go to frontend folder:
+
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. (Optional) Create `.env` if you want custom API URL:
+
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+```
+
+If omitted, frontend defaults to `http://localhost:3000/api/v1`.
+
+4. Run frontend:
+
+```bash
+npm run dev
+```
+
+Frontend URL: `http://localhost:5173`
+
+## Running Production Build (Optional)
+
+### Backend
+
+```bash
+cd backend
+npm run build
+npm start
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm run build
+npm run preview
+```
+
+## API Testing with Postman
+
+1. Import [postman_collection.json](postman_collection.json)
+2. Set collection variable `baseUrl` to:
+
+```text
+http://localhost:3000/api/v1
+```
+
+3. Run login requests first to auto-populate token variables.
+
+## Main Roles and Flows
+
+1. Buyer:
+   - Register/Login
+   - Browse products
+   - Create direct or loan order
+   - View order details and repayment schedule
+
+2. Lender:
+   - Register/Login
+   - Browse open loans
+   - Fund loan
+   - View funding history
+
+## VITE JS (FRONTEND)
+
+Vite was chosen for the frontend architecture because it gives faster development feedback and a simpler modern setup for this project. Very fast local development with instant startup and near real-time HMR, so UI iteration is quick.
+
+## EXPRESS JS, TypeORM (BACKEND)
+
+Express.js and TypeORM were chosen to keep the backend architecture clear, fast to build, and maintainable for this business flow. Express.js is lightweight and flexible, making it easy to structure routes, middleware, authentication, and role-based authorization. It has a mature ecosystem and clear request/response model, which helps deliver REST APIs quickly. TypeORM provides entity-based modeling that maps cleanly to PostgreSQL tables used in this project.
+
+## HOW I USE AI FOR THIS PROJECT
+
+I used AI as a development copilot to speed up implementation, reduce repetitive work, and improve consistency across backend and frontend.
+
+1. Scaffolding and structure
+   - Generated initial backend and frontend structure, then adjusted it to match the project requirements and existing folder layout.
+2. API implementation support
+   - Used AI to draft endpoint handlers, validation patterns, authentication middleware flow, and service-layer separation.
+3. Frontend implementation support
+   - Used AI to speed up page/component wiring, API integration, state handling, and role-based navigation behavior.
+4. Documentation and delivery assets
+   - Used AI to help prepare run instructions, Postman collection structure, and improve project documentation clarity.
+
+Quality control example:
+
+1. During implementation, AI-generated output occasionally used inconsistent token naming between frontend and backend (`accessToken` vs `access_token`), which caused unauthorized behavior after login.
+2. I caught this issue by testing login and protected API calls end-to-end, then corrected token handling to use one consistent key across request/response flow.
